@@ -1,0 +1,354 @@
+#include <iostream>
+#include <stdlib.h>
+#include <locale.h>
+#include <windows.h>
+using namespace std;
+
+
+class Time
+{
+    string nome_time;
+    static int quant;
+    int codigoT;
+public:
+    Time(string nome, int nume, int cod)
+    {
+        nome_time = nome;
+        quant = nume;
+        codigoT = cod;
+    }
+    void incrementa_quant(){
+        quant++;
+    }
+    string setnomeT()
+    {
+        return nome_time;
+    }
+    int setquantT()
+    {
+        return quant;
+    }
+    void getnomeT(string nome)
+    {
+        nome_time= nome;
+    }
+    void getvodigoT(int cod)
+    {
+        codigoT = cod;
+    }
+    int setcodigoT()
+    {
+        return codigoT;
+    }
+
+};
+int  Time::quant=0;
+
+class Jogador: public Time
+{
+    string nome;
+    int idade;
+    string posicao;
+    int codigoJ;
+public:
+    Jogador(string nome, int idade, string posicao, int cod) :Time ("", 0, 0)
+    {
+        this->nome = nome;
+        this->idade = idade;
+        this->posicao = posicao;
+        codigoJ = cod;
+        incrementa_quant();
+    }
+    void setnomeJ(string nome)
+    {
+        this->nome = nome;
+    }
+    string getnomeJ()
+    {
+        return nome;
+    }
+    void setposicaoJ(int posicao)
+    {
+        this->posicao = posicao;
+    }
+    string getposicaoJ()
+    {
+        return posicao;
+    }
+    void getidaeJ(int id)
+    {
+        idade = id;
+    }
+    int setidadeJ()
+    {
+        return idade;
+    }
+     void getcodJ (int cod)
+    {
+        codigoJ = cod;
+    }
+    int setcodiJ()
+    {
+        return codigoJ;
+    }
+};
+struct LTime
+{
+    Time time[10];
+    int tam=0;
+};
+struct LJogador
+{
+    Jogador jogadores[11];
+    int tam=0;
+};
+
+class Campeonato
+{
+    string nome;
+    string local;
+
+public:
+    campeonato()
+    {
+    }
+    campeonato(string n, string loc)
+    {
+        nome = n;
+        local = loc;
+    }
+    Jogador cadastrarjogador(LJogador &lista)
+    {
+        int idade = 0;
+        string n, pos;
+        cout <<"Digite o Nome do Jogador: ";
+        cin >> n;
+        cout <<"Digite a posição do Jogador: ";
+        cin >> pos;
+        while(idade<18)
+        {
+            cout <<"\nDigite a idade do jogador (idade minima é de 18 anos): ";
+            cin >> idade;
+            if(idade<18)
+            {
+                cout<<"\n\n Idade invalida.";
+            }
+            Sleep(2000);
+            system("clr");
+        }
+        cout << "\n\Jogador cadastrado com sucesso";
+        Sleep(2000);
+        system("cls");
+        int a = lista.tam;
+        Jogador Jogador(n, idade, pos,a);
+        lista.tam++;
+        return Jogador;
+    }
+    Time cadastrarTime(LTime &lista)
+    {
+        string n;
+        int nume = 0;
+        cout <<"Digite o Nome do Time: ";
+        cin >> n;
+        while(nume < 11)
+        {
+            cout <<"\nQuantos jogadores no time (Maximo eh 11): ";
+            cin >> nume;
+            if(nume < 11 )
+            {
+                cout<<"\nQuantidade invalida:";
+            }
+            Sleep(2000);
+            system("clr");
+        }
+
+        cout <<"\nTime cadastrado com sucesso";
+        Sleep(2000);
+        system("cls");
+        int a= lista.tam;
+        Time time(n, nume, a);
+        lista.tam++;
+        return time;
+    }
+    void setnomeC(string nom)
+    {
+        nome = nom;
+    }
+    string getnomeC()
+    {
+        return nome;
+    }
+    void setlocal(string loc)
+    {
+        local = loc;
+    }
+    string getlocal()
+    {
+        return local;
+    }
+};
+
+class vis_alt_exc_T: public Time
+{
+    int pos;
+    int pos1;
+    int opc;
+public:
+
+    vis_alt_exc_T(int pos, int pos1, int opc): Time ("", 0, 0)
+    {{
+        this->pos = pos;
+        this->pos1 = pos1;
+        this->opc = opc;
+    }
+    void visualizaT(string nome, int idade, string posicao, int cod)
+    {
+        pos = 12;
+        while(pos> 10)
+        {
+            cout << "Qual codigo do time que deseja visualizar? : ";
+            cin >> pos;
+            system("cls");
+            if(pos > 10)
+            {
+                cout<<"\nCodigo invalido";
+                system("cls");
+            }
+        }
+        cout << "\nNome: " << lista.time[pos].setnomeT();
+        cout << "\nQuantidade de jogadores no time: " << lista.time[pos].setquantT();
+        system("pause");
+        system("cls");
+    }
+    bool excluirT(LTime &lista)
+    {
+        cout << "Qual codigo do time que deseja excluir? : ";
+        cin >> pos1;
+        if(lista.tam < 10)
+        {
+            for(int i=pos1; i<lista.tam; i++)
+            {
+                lista.time[i] = lista.time[i+1];
+                lista.time[i].getvodigoT(lista.time[i].setcodigoT()-1);
+            }
+            lista.tam--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        cout << "\n\Time excluido com sucesso";
+        Sleep(2000);
+        system("cls");
+    }
+    bool alteraT(LTime &lista){
+        int cod;
+        string nome;
+        cout<<"\nCodigo do time: ";
+        cin>>cod;
+        cout<<"\nDeseja atualizar qual paramenro 1)nome: ";
+        cin>> opc;
+        if(opc == 1){
+            cout<<"Digite o nome do time: ";
+            cin>> nome;
+            getnomeT(nome);
+            cout << "\nNome modificado com sucesso";
+            Sleep(2000);
+            system("cls");
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+};
+
+class vis_alt_exc_J: public Jogador
+{
+    int pos;
+    int pos1;
+    int opc;
+public:
+
+    vis_alt_exc_J(int pos, int pos1, int opc): Jogador (string nome, int idade, string posicao, int cod){
+        this->pos = pos;
+        this->pos1 = pos1;
+        this->opc = opc;
+    }
+    void visualizaJ(LJogador lista)
+    {
+        pos = 12;
+        while(pos> 11)
+        {
+            cout << "Qual codigo do Jogador que deseja visualizar? : ";
+            cin >> pos;
+            system("cls");
+            if(pos > 10)
+            {
+                cout<<"\nCodigo invalido";
+            }
+        }
+        cout << "\nNome: " << lista.jogadores[pos].getnomeJ();
+        cout << "\nQual a posicao do jogador: " << lista.jogadores[pos].setposicaoJ();
+        cout <<"\nIdade do Jogador: "<< lista.jogadores[pos].setidadeJ();
+        system("pause");
+        system("cls");
+    }
+    bool excluirJ(LJogador &lista)
+    {
+        cout << "Qual codigo do jogador que deseja excluir? : ";
+        cin >> pos1;
+        if(lista.tam < 11)
+        {
+            for(int i=pos1; i<lista.tam; i++)
+            {
+                lista.time[i] = lista.time[i+1];
+                lista.time[i].getvodigoT(lista.jogadores[i].getcodJ()-1);
+            }
+            lista.tam--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        cout << "\n\jogador excluido com sucesso";
+        Sleep(2000);
+        system("cls");
+    }
+    void alteraJ(LJogador &lista){
+        int cod;
+        string nome, pos;
+        int id;
+        cout<<"\nCodigo do jogador: ";
+        cin>>cod;
+        cout<<"\nDeseja atualizar qual paramenro 1)nome 2)idade 3)posicao: ";
+        cin>> opc;
+        switch (opc){
+            case 1:
+                cout<<"Digite o nome do jogador: ";
+                cin>> nome;
+                getnomeT(nome);
+                cout << "\nNome modificado com sucesso";
+                Sleep(2000);
+                system("cls");
+                break;
+            case 2:
+                cout<<"Digite a idade do jogador: ";
+                cin>> id;
+                getidaeJ(id);
+                cout << "\Idade modificado com sucesso";
+                Sleep(2000);
+                system("cls");
+                break;
+         case 3:
+                cout<<"Digite a posicao do jogador: ";
+                cin>> pos;
+                setposicaoJ(pos);
+                cout << "\Posiçao modificado com sucesso";
+                Sleep(2000);
+                system("cls");
+                break;
+    }
+};
